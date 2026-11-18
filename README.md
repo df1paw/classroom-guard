@@ -11,8 +11,6 @@ Internetzugang sperren oder einschränken, USB-Laufwerke und Webcams sperren, Mi
 
 </div>
 
-[English](README.md) · **Deutsch**
-
 Classroom Guard ist ein Plugin für [Veyon](https://veyon.io/) (kein offizielles
 Veyon-Produkt). Es fügt der Symbolleiste des **Veyon Master** Schaltflächen hinzu. Ein Klick
 führt die Aktion auf allen ausgewählten Schüler-PCs aus: Der **Veyon Server** dort setzt sie
