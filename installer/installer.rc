@@ -1,0 +1,14 @@
+#include <winuser.h>
+
+/* Application manifest: run as invoker (no forced elevation; we self-elevate
+   only when a write actually fails) and enable the modern common controls so
+   the folder browser uses the new-style dialog. */
+1 24 "installer.manifest"
+
+/* Embedded plugin payloads, extracted at install time. All three variants are
+   carried; the installer picks the right one by detecting the Veyon Qt version.
+   All three DLLs must be present next to this .rc file when windres runs (the build
+   script copies them here). */
+101 RCDATA "classroom-guard-qt5.dll"
+102 RCDATA "classroom-guard-qt6.dll"
+103 RCDATA "classroom-guard-qt6-v411.dll"

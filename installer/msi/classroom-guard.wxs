@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Classroom Guard - MSI package for the Veyon 4.11 plugin
+  (c) by Andreas Weller - https://www.andreas-weller.de/
+  Based on the InternetGuard plugin by prof. Ing. Raffaele Mele (GPL-2.0-or-later).
+
+  Installs classroom-guard-qt6-v411.dll into <Veyon>\plugins and restarts the
+  Veyon service so the plugin is loaded. Other Classroom Guard / InternetGuard
+  DLLs in that folder are NOT removed by this package: delete them first
+  (internet-guard-*.dll, classroom-guard-qt5.dll, classroom-guard-qt6.dll),
+  because all variants share one plugin UID.
+
+  Silent install:  msiexec /i classroom-guard-4.11.msi /qn
+  Other Veyon dir: msiexec /i classroom-guard-4.11.msi INSTALLDIR="D:\Veyon" /qn
+  Uninstall:       msiexec /x classroom-guard-4.11.msi /qn
+
+  Build (WiX 3 / wixl):  see build-msi.ps1 and build-msi.sh
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="Classroom Guard for Veyon 4.11" Language="1033" Version="$(var.Version)"
+           Manufacturer="Andreas Weller" UpgradeCode="6B1D3C52-8E4A-4F0B-9D57-2A7C41E9B0F3">
+    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine"
+             Description="Classroom Guard plugin for Veyon 4.11 (internet, USB, webcam, microphone, audio)"
+             Comments="(c) by Andreas Weller - https://www.andreas-weller.de/" />
+    <MajorUpgrade DowngradeErrorMessage="A newer version of Classroom Guard is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Property Id="ARPURLINFOABOUT" Value="https://www.andreas-weller.de/" />
+    <Property Id="INSTALLDIR" Value="C:\Program Files\Veyon\" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="INSTALLDIR" Name="Veyon">
+        <Directory Id="PLUGINSDIR" Name="plugins">
+          <Component Id="PluginDll" Guid="A3F1C7E4-5B2D-4E88-8C19-0D6E7F3A9B21" Win64="yes">
+            <File Id="PluginFile" Name="classroom-guard-qt6-v411.dll" Source="$(var.DllPath)" KeyPath="yes" />
+            <ServiceControl Id="StopVeyon" Name="VeyonService" Stop="both" Wait="yes" />
+            <ServiceControl Id="StartVeyon" Name="VeyonService" Start="install" Wait="no" />
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id="Main" Title="Classroom Guard plugin" Level="1">
+      <ComponentRef Id="PluginDll" />
+    </Feature>
+  </Product>
+</Wix>

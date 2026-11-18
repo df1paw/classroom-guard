@@ -1,0 +1,32 @@
+# Build output (binaries are published as GitHub Release assets, not committed)
+/build/
+/build-*/
+*.o
+*.obj
+
+# Installer build artifacts
+/installer/internet-guard*.dll
+/installer/install-internet-guard*.exe
+/installer/plugin_name_gen.h
+/installer/*.o
+
+# Internal build/assignment notes (not for publication)
+/veyon_*_build_instructions.txt
+/patch_instructions_*.txt
+
+# Local tooling config (not for publication)
+/.claude/
+/claude_resume_sessions.bat
+
+# Tooling logs
+/aqtinstall.log
+
+# Editor / OS
+.vscode/
+.idea/
+*.user
+Thumbs.db
+/installer/classroom-guard*.dll
+/installer/install-classroom-guard*.exe
+/installer/classroom-guard-qt6-v411.dll
+/dist/

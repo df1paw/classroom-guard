@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/classroom-guard">
+        <!--
+          The toolbar icon is shipped as PNG, not SVG: Veyon's Windows
+          deployment does not include Qt's SVG icon-engine plugin, so
+          QIcon(":/...svg") would render empty. PNG matches what every
+          built-in Veyon plugin uses. network-offline.svg is kept in the
+          repo as the editable source; regenerate the PNG from it if changed.
+        -->
+        <file>network-offline.png</file>
+        <file>usb-blocked.png</file>
+        <file>webcam-blocked.png</file>
+        <file>microphone-muted.png</file>
+        <file>audio-muted.png</file>
+    </qresource>
+</RCC>
