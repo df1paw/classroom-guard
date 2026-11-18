@@ -2,116 +2,121 @@
 
 # Classroom Guard
 
-**Take control of the classroom from the Veyon Master:**
-block or restrict internet access, lock USB drives and webcams, mute microphones and audio.
+**Den Klassenraum vom Veyon Master aus im Griff:**
+Internetzugang sperren oder einschränken, USB-Laufwerke und Webcams sperren, Mikrofone und Ton stummschalten.
 
-[![License: GPL v2+](https://img.shields.io/badge/license-GPL--2.0--or--later-blue.svg)](LICENSE)
-![Platform: Windows](https://img.shields.io/badge/platform-Windows-0078D6.svg)
+[![Lizenz: GPL v2+](https://img.shields.io/badge/license-GPL--2.0--or--later-blue.svg)](LICENSE)
+![Plattform: Windows](https://img.shields.io/badge/platform-Windows-0078D6.svg)
 ![Veyon 4.7.5 – 4.11](https://img.shields.io/badge/Veyon-4.7.5%20%E2%80%93%204.11-green.svg)
 
 </div>
 
-Classroom Guard is a plugin for [Veyon](https://veyon.io/) (not an official Veyon
-product). It adds buttons to the **Veyon Master** toolbar. A click runs the action on
-all selected student computers: the **Veyon Server** there carries it out. No extra
-server, agent or console is needed.
+[English](README.md) · **Deutsch**
 
-## Features
+Classroom Guard ist ein Plugin für [Veyon](https://veyon.io/) (kein offizielles
+Veyon-Produkt). Es fügt der Symbolleiste des **Veyon Master** Schaltflächen hinzu. Ein Klick
+führt die Aktion auf allen ausgewählten Schüler-PCs aus: Der **Veyon Server** dort setzt sie
+um. Ein zusätzlicher Server, Agent oder eine Konsole ist nicht nötig.
+
+## Funktionen
 
 | | |
 |---|---|
-| 🌐 **Block internet** | Windows Firewall, proxy redirection and routing table, alone or combined |
-| 🎯 **Restrict internet** | Only the websites you name stay reachable. The Master asks for them each time |
-| 🏫 **LAN stays alive** | Only non-local destinations are blocked. Domain, file shares, printers and Veyon keep working |
-| 💾 **USB drives** | Block and allow removable storage |
-| 📷 **Webcams** | Disable and enable all cameras |
-| 🎤 **Microphones and audio** | Mute and unmute capture and playback devices |
-| ⏱ **Auto-release** | Every block lifts itself after N minutes. A configurable end of the school day lifts everything at a set time |
-| 💬 **Notice for students** | A small popup tells the student what was locked, so nobody thinks the PC is broken |
-| 🇩🇪 **German and English** | The interface follows the Veyon language |
-| 🧪 **Simulation mode** | The log says what would happen, nothing is changed |
+| 🌐 **Internet sperren** | Windows-Firewall, Proxy-Umleitung und Routing-Tabelle, einzeln oder kombiniert |
+| 🎯 **Internet einschränken** | Nur die genannten Websites bleiben erreichbar. Der Master fragt sie jedes Mal ab |
+| 🏫 **Schulnetz bleibt erreichbar** | Nur Ziele außerhalb des lokalen Netzes werden gesperrt. Domäne, Dateifreigaben, Drucker und Veyon funktionieren weiter |
+| 💾 **USB-Laufwerke** | Wechseldatenträger sperren und freigeben |
+| 📷 **Webcams** | Alle Kameras deaktivieren und aktivieren |
+| 🎤 **Mikrofone und Ton** | Aufnahme- und Wiedergabegeräte stummschalten und wieder einschalten |
+| ⏱ **Automatische Freigabe** | Jede Sperre hebt sich nach N Minuten selbst auf. Ein einstellbares Schulende hebt zu einer festen Uhrzeit alles auf |
+| 💬 **Hinweis für Schüler** | Ein kleines Popup zeigt, was gesperrt wurde, damit niemand den PC für defekt hält |
+| 🇩🇪 **Deutsch und Englisch** | Die Oberfläche folgt der Veyon-Sprache |
+| 🧪 **Simulationsmodus** | Das Protokoll zeigt, was passieren würde, es wird nichts geändert |
 
-Exceptions for ports, networks and hosts, a log file, a settings page in the Veyon
-Configurator and a MSI for rollout are included.
+Ausnahmen für Ports, Netze und Hosts, eine Protokolldatei, eine Einstellungsseite im
+Veyon Configurator und ein MSI für die Verteilung sind enthalten.
 
-## Quick start
+## Schnellstart
 
-1. Download the DLL or MSI for your Veyon version from the
-   [Releases](../../releases) page.
+1. Laden Sie die DLL oder das MSI für Ihre Veyon-Version von der Seite
+   [Releases](../../releases) herunter.
 
    | Veyon | Plugin |
    |---|---|
-   | 4.11.x | `classroom-guard-qt6-v411.dll` (or the MSI) |
+   | 4.11.x | `classroom-guard-qt6-v411.dll` (oder das MSI) |
    | 4.9.x – 4.10.x | `classroom-guard-qt6.dll` |
    | 4.7.5 – 4.8.x | `classroom-guard-qt5.dll` |
 
-2. Copy it into `C:\Program Files\Veyon\plugins\` on **every student PC** and on the
-   **teacher PC**, or run the MSI:
+2. Kopieren Sie die Datei nach `C:\Program Files\Veyon\plugins\` auf **jedem Schüler-PC** und
+   auf dem **Lehrer-PC**, oder führen Sie das MSI aus:
    ```
    msiexec /i classroom-guard-4.11.msi /qn
    ```
-3. Restart the Veyon Service and the Veyon Master.
-4. In the Master select computers and click the new buttons. Try *Simulation mode* first
-   (Veyon Configurator → Classroom Guard).
+3. Starten Sie den Veyon-Dienst und den Veyon Master neu.
+4. Wählen Sie im Master Computer aus und klicken Sie auf die neuen Schaltflächen. Probieren
+   Sie zuerst den *Simulationsmodus* (Veyon Configurator → Classroom Guard).
 
-More in the **[user guide](docs/USER-GUIDE.md)**.
+Mehr im **[Benutzerhandbuch](docs/USER-GUIDE.md)** (englisch).
 
-## How it works
+## So funktioniert es
 
 ```
-Veyon Master (teacher)                    Veyon Server (each student PC)
-┌────────────────────────┐   feature      ┌─────────────────────────────┐
-│ toolbar buttons        │   message      │ Classroom Guard plugin      │
-│ "Restrict" dialog      │ ─────────────► │  ├ Windows Firewall (COM)   │
-│ (allowed websites)     │                │  ├ proxy / routing          │
-└────────────────────────┘                │  ├ USB / webcam (SetupAPI)  │
-                                          │  └ audio (Core Audio)       │
+Veyon Master (Lehrkraft)                  Veyon Server (jeder Schüler-PC)
+┌────────────────────────┐   Feature-     ┌─────────────────────────────┐
+│ Symbolleisten-Buttons  │   Nachricht    │ Classroom-Guard-Plugin      │
+│ Dialog "Einschränken"  │ ─────────────► │  ├ Windows-Firewall (COM)   │
+│ (erlaubte Websites)    │                │  ├ Proxy / Routing          │
+└────────────────────────┘                │  ├ USB / Webcam (SetupAPI)  │
+                                          │  └ Audio (Core Audio)       │
                                           └─────────────────────────────┘
 ```
 
-Windows Firewall evaluates block rules before allow rules. Classroom Guard therefore
-computes the destination list of its block rules as *all addresses minus the local
-networks minus your exceptions*. Details in the [user guide](docs/USER-GUIDE.md) and
-[ARCHITECTURE.md](ARCHITECTURE.md).
+Die Windows-Firewall wertet Sperrregeln vor Erlaubnisregeln aus. Classroom Guard berechnet
+deshalb die Zielliste seiner Sperrregeln als *alle Adressen minus die lokalen Netze minus Ihre
+Ausnahmen*. Details im [Benutzerhandbuch](docs/USER-GUIDE.md) und in
+[ARCHITECTURE.md](ARCHITECTURE.md) (beide englisch).
 
-## Documentation
+## Dokumentation
 
 | | |
 |---|---|
-| [User guide](docs/USER-GUIDE.md) | Installation, controls, firewall behaviour, settings, limitations |
-| [Building](docs/BUILDING.md) | Build for every Veyon version, verification, installer, MSI |
-| [Architecture](ARCHITECTURE.md) | Design decisions and the Veyon compatibility analysis |
-| [Changelog](CHANGELOG.md) | What changed in each version |
+| [Benutzerhandbuch](docs/USER-GUIDE.md) | Installation, Bedienung, Firewall-Verhalten, Einstellungen, Grenzen (englisch) |
+| [Selbst bauen](docs/BUILDING.md) | Build für jede Veyon-Version, Prüfung, Installer, MSI (englisch) |
+| [Architektur](ARCHITECTURE.md) | Entwurfsentscheidungen und Analyse der Veyon-Kompatibilität (englisch) |
+| [Änderungsprotokoll](CHANGELOG.md) | Was sich in welcher Version geändert hat (englisch) |
 
-## Build it yourself
+## Selbst bauen
 
-For Veyon 4.11 on Windows one script builds against your installed Veyon and checks the
-result:
+Für Veyon 4.11 unter Windows baut ein Skript gegen Ihr installiertes Veyon und prüft das
+Ergebnis:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File tools\build-windows.ps1
 ```
 
-See [docs/BUILDING.md](docs/BUILDING.md) for the prerequisites and the other Veyon versions.
+Voraussetzungen und die anderen Veyon-Versionen stehen in [docs/BUILDING.md](docs/BUILDING.md).
 
-## Good to know
+## Gut zu wissen
 
-- Windows only. The student computers must run Windows.
-- A DLL must match the Veyon version (the plugin API of 4.11 differs from 4.9/4.10).
-  Use the table above.
-- Restrict mode filters by address, not by content. Sites behind CDNs can change addresses.
-- Tested on Windows with Veyon 4.11.4. Try it on one computer first.
+- Nur Windows. Die Schüler-PCs müssen unter Windows laufen.
+- Die DLL muss zur Veyon-Version passen (die Plugin-Schnittstelle von 4.11 unterscheidet sich
+  von 4.9/4.10). Nutzen Sie die Tabelle oben.
+- Der Einschränken-Modus filtert nach Adresse, nicht nach Inhalt. Seiten hinter CDNs können
+  ihre Adressen ändern.
+- Getestet unter Windows mit Veyon 4.11.4. Probieren Sie es zuerst an einem Rechner aus.
 
-## Contributing
+## Mitwirken
 
-Issues and pull requests are welcome. Please write the Veyon version, Windows version and
-the log (`%ProgramData%\ClassroomGuard\classroom-guard.log`) into bug reports.
+Issues und Pull Requests sind willkommen. Bitte geben Sie in Fehlerberichten die
+Veyon-Version, die Windows-Version und das Protokoll
+(`%ProgramData%\ClassroomGuard\classroom-guard.log`) an.
 
-## License
+## Lizenz
 
-GPL-2.0-or-later, see [LICENSE](LICENSE). The GPL applies because the plugin uses Veyon's
-headers and links against `veyon-core`. The repository includes import libraries derived
-from [Veyon](https://github.com/veyon/veyon) (© Veyon Community, GPL-2.0-or-later).
+GPL-2.0-or-later, siehe [LICENSE](LICENSE). Die GPL gilt, weil das Plugin die Header von
+Veyon verwendet und gegen `veyon-core` linkt. Das Repository enthält Importbibliotheken, die
+aus [Veyon](https://github.com/veyon/veyon) abgeleitet sind (© Veyon Community,
+GPL-2.0-or-later).
 
-(c) by [Andreas Weller](https://www.andreas-weller.de/). Based on the InternetGuard
-plugin by prof. Ing. Raffaele Mele.
+© [Andreas Weller](https://www.andreas-weller.de/). Basiert auf dem Plugin InternetGuard von
+prof. Ing. Raffaele Mele.
